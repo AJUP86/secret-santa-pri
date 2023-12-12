@@ -1,7 +1,7 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { getServerSession } from 'next-auth';
-import SessionProvider from './components/SessionProvider.tsx';
+import SessionProvider from './components/SessionProvider';
 import NavMenu from './components/NavMenu';
 const inter = Inter({ subsets: ['latin'] });
 

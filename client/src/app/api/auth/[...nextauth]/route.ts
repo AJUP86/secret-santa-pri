@@ -2,7 +2,7 @@ import NextAuth from 'next-auth/next';
 import GoogleProvider from 'next-auth/providers/google';
 import { NextAuthOptions } from 'next-auth';
 import { db } from '../../../../../firebase'; // Adjust the path as needed
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!;
@@ -25,6 +25,18 @@ const authOptions: NextAuthOptions = {
       const userData = {
         name: profile.name || user.name, // Fallback to `user.name` if `profile.name` isn't available
         email: profile.email,
+        bio: '',
+        wishlist: [],
+        eventsParticipated: [],
+        isActive: true,
+        hasCompletedProfile: false,
+        invitationStatus: 'pending',
+        privacySettings: {
+          showEmail: false,
+          showWishlist: true,
+        },
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
       };
 
       const userRef = doc(db, 'users', profile.email);
