@@ -2,10 +2,13 @@ const express = require('express');
 const usersRoutes = require('./routes/usersRoutes');
 const commentRoutes = require('./routes/commentsRoutes');
 const eventRoutes = require('./routes/eventRoutes');
+const cors = require('cors');
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
+
 app.use('/users', usersRoutes);
 app.use('/comments', commentRoutes);
 app.use('/events', eventRoutes);

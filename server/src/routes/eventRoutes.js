@@ -4,9 +4,10 @@ const eventController = require('../controllers/eventController');
 
 const router = express.Router();
 
-router.post('/events', eventController.createNewEvent);
-router.post('/events/:eventId/users', eventController.addParticipantToEvent);
-router.get('/events/:eventId/users', eventController.getParticipants);
-router.put('/events/:eventId', eventController.updateEvent);
+router.get('/', eventController.getAllEvents);
+router.post('/', eventController.createNewEvent);
+router.post('/:eventId/users', eventController.addParticipantToEvent);
+router.get('/:eventId/users', eventController.getParticipants);
+router.put('/:eventId', eventController.updateEvent);
 
 module.exports = router;

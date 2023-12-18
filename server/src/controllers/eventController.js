@@ -1,11 +1,22 @@
 const {
+  getEvents,
   createEvent,
   addUserToEvent,
   getEventUsers,
   updateEventById,
 } = require('../models/event');
 
+const getAllEvents = async (req, res) => {
+  try {
+    const events = await getEvents(); // Use the corrected function name
+    res.status(200).json(events);
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    res.status(500).send('Error fetching events');
+  }
+};
 const createNewEvent = async (req, res) => {
+  console.log('Request body:', req.body);
   const { creatorId, name, description } = req.body;
 
   try {
@@ -62,6 +73,7 @@ const updateEvent = async (req, res) => {
 };
 
 module.exports = {
+  getAllEvents,
   createNewEvent,
   addParticipantToEvent,
   getParticipants,

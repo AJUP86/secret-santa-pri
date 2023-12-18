@@ -1,6 +1,15 @@
 const db = require('../config/firebaseAdmin');
 const admin = require('firebase-admin');
 
+const getEvents = async () => {
+  const eventCollection = db.collection('events');
+  const snapshot = await eventCollection.get();
+  const events = [];
+  snapshot.forEach((doc) => {
+    events.push({ id: doc.id, ...doc.data() });
+  });
+  return events; // Return the events array
+};
 const createEvent = async (creatorId, name, description, users = []) => {
   const eventData = {
     creatorId,
@@ -46,6 +55,7 @@ const updateEventById = async (eventId, userId, updatedData) => {
 };
 
 module.exports = {
+  getEvents,
   createEvent,
   addUserToEvent,
   getEventUsers,

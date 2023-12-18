@@ -1,10 +1,10 @@
 import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
+import LandingPage from './landing/page';
 
 export default async function Home() {
   const session = await getServerSession();
   if (!session || !session.user) {
-    redirect('api/auth/signin');
+    return <LandingPage />;
   }
 
   return (
