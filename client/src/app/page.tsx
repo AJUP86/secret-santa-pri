@@ -1,5 +1,6 @@
 import { getServerSession } from 'next-auth';
 import LandingPage from './landing/page';
+import Link from 'next/link';
 
 export default async function Home() {
   const session = await getServerSession();
@@ -17,9 +18,9 @@ export default async function Home() {
         <p className="mt-3 text-2xl">Create your event and start the fun!</p>
 
         <div className="mt-6">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <Link href="/event" className="button-primary">
             Create Event
-          </button>
+          </Link>
         </div>
       </div>
       <footer className="flex items-center justify-center w-full h-24 border-t">

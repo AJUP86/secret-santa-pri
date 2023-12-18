@@ -1,17 +1,18 @@
 'use client';
 import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
 const AuthButton = () => {
   const { data: session } = useSession();
-
+  const GoHome = () => {
+    signOut();
+    redirect('api/auth/signin');
+  };
   return session ? (
     <div className="flex items-center space-x-2">
       <span>{session.user.name}</span>
-      <button
-        onClick={() => signOut()}
-        className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded transition duration-300"
-      >
+      <button onClick={GoHome} className="button-secondary">
         Sign out
       </button>
     </div>

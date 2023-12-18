@@ -1,8 +1,9 @@
 'use client';
 // pages/event-setup.tsx
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
+import LandingPage from '../landing/page';
 // Import other necessary components and hooks
 
 export default function EventSetup() {
@@ -10,6 +11,8 @@ export default function EventSetup() {
   const [eventName, setEventName] = useState('');
   const [eventDescription, setEventDescription] = useState('');
   const { data: session } = useSession();
+  const router = useRouter();
+
   // Function to handle form submission
   const handleCreateEvent = async (e) => {
     e.preventDefault();
@@ -32,13 +35,15 @@ export default function EventSetup() {
       }
 
       const data = await response.json();
-      redirect(`https://localhost:3000/event/${data.eventId}`); // Redirect to the event page, using the returned event ID
+      router.push(`event/${data.eventId}`); // Redirect to the event page, using the returned event ID
     } catch (error) {
       console.error('Failed to create event:', error);
       // Handle errors, such as displaying an error message to the user
     }
   };
-
+  if (!session || !session.user) {
+    return <LandingPage />;
+  }
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-3xl font-bold mb-4">Setup Your Secret Santa Event</h2>
