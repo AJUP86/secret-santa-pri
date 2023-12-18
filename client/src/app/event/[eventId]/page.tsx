@@ -1,3 +1,8 @@
 export default function page({ params }) {
-  return <div>{params.eventId}</div>;
+  async function getData() {}
+  return (
+    <>
+      <div>{params.eventId}</div>
+    </>
+  );
 }
