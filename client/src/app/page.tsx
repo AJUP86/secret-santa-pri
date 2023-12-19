@@ -1,6 +1,7 @@
 import { getServerSession } from 'next-auth';
 import LandingPage from './landing/page';
 import Link from 'next/link';
+import React from 'react';
 
 export default async function Home() {
   const session = await getServerSession();

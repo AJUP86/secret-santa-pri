@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import LandingPage from '../landing/page';
+import React from 'react';
 // Import other necessary components and hooks
 
 export default function EventSetup() {
