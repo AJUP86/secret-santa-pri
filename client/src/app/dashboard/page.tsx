@@ -1,11 +1,16 @@
-import { getServerSession } from 'next-auth';
-import Link from 'next/link';
-import React from 'react';
-import { redirect } from 'next/navigation';
-import Home from '../page';
+'use client';
 
-export default async function Dashboard() {
-  const session = await getServerSession();
+import React from 'react';
+import { useRouter } from 'next/navigation';
+import Home from '../page';
+import { useSession } from 'next-auth/react';
+export default function Dashboard() {
+  const { data: session } = useSession();
+  const router = useRouter();
+  const createEvent = () => {
+    router.push('/dashboard/events/new');
+  };
+
   console.log(session);
   if (!session || !session.user) {
     return <Home />;
@@ -21,9 +26,9 @@ export default async function Dashboard() {
         <p className="mt-3 text-2xl">Create your event and start the fun!</p>
 
         <div className="mt-6">
-          <Link href="/event" className="button-primary">
+          <button onClick={createEvent} className="button-primary">
             Create Event
-          </Link>
+          </button>
         </div>
       </div>
       <footer className="flex items-center justify-center w-full h-24 border-t">
