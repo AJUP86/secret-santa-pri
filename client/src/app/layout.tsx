@@ -3,6 +3,7 @@ import './globals.css';
 import { getServerSession } from 'next-auth';
 import SessionProvider from './components/SessionProvider';
 import NavMenu from './components/NavMenu';
+import React from 'react';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {

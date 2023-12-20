@@ -3,7 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
-import LandingPage from '../landing/page';
+import React from 'react';
+import Home from '../../page';
 // Import other necessary components and hooks
 
 export default function EventSetup() {
@@ -35,14 +36,15 @@ export default function EventSetup() {
       }
 
       const data = await response.json();
-      router.push(`event/${data.eventId}`); // Redirect to the event page, using the returned event ID
+      console.log(data.eventId);
+      router.push(`/dashboard/events/${data.eventId}`); // Redirect to the event page, using the returned event ID
     } catch (error) {
       console.error('Failed to create event:', error);
       // Handle errors, such as displaying an error message to the user
     }
   };
   if (!session || !session.user) {
-    return <LandingPage />;
+    return <Home />;
   }
   return (
     <div className="container mx-auto p-4">
