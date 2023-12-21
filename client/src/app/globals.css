@@ -68,4 +68,24 @@ footer {
   .footer {
     @apply flex items-center justify-center w-full h-24 border-t bg-gray-800 text-gray-300;
   }
+
+  .comment-section {
+    @apply bg-white text-gray-800 rounded-lg shadow p-6 mt-4;
+  }
+
+  .comment-form {
+    @apply flex flex-col gap-4;
+  }
+
+  .comment-input {
+    @apply w-full border-gray-300 rounded-lg shadow-sm p-3 text-gray-700 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent;
+  }
+
+  .comment-submit {
+    @apply bg-accent hover:bg-accent-hover text-white font-bold py-2 px-4 rounded transition duration-300 cursor-pointer;
+  }
+
+  .comments-display {
+    @apply mt-4 bg-gray-50 p-4 rounded-lg shadow;
+  }
 }

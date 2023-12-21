@@ -12,7 +12,11 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      colors: {
+        accent: '#2563eb', // example color for your accent
+        'accent-hover': '#1d4ed8', // example color for your accent hover
+      },
     },
   },
   plugins: [],
-}
+};
