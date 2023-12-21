@@ -1,13 +1,39 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+import Comment from './Coments';
+import { comma } from 'postcss/lib/list';
 
 const CommentSection = ({ eventId }) => {
   const [comment, setComment] = useState('');
+  const [postedComments, setPostedComments] = useState([]);
   const { data: session } = useSession();
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/comments/${eventId}`
+        );
+        if (!response.ok) {
+          throw new Error('Failed to fetch comments');
+        }
+        const data = await response.json();
+        setPostedComments(data);
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+
+    if (eventId) {
+      fetchComments();
+    }
+  }, [eventId, comment]);
 
   const handlePostComment = async (e) => {
     e.preventDefault();
+    console.log(comment);
     if (!comment.trim()) return;
 
     try {
@@ -58,7 +84,17 @@ const CommentSection = ({ eventId }) => {
         </div>
       </form>
       <div className="comments-display">
-        {/* Map and display comments here */}
+        {postedComments &&
+          postedComments.map((comment) => (
+            <div key={comment.id} className="comment">
+              <Comment
+                userAvatar={session.user.image}
+                userName={session.user.name}
+                content={comment.content}
+                timestamp={comment.timestamp}
+              />
+            </div>
+          ))}
       </div>
     </div>
   );
