@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import CommentForm from './CommentForm';
 import Image from 'next/image';
 
-const Comment = ({ userAvatar, userName, content, timestamp }) => {
+const Comment = ({ id, userAvatar, userName, content, timestamp, onReply }) => {
   const [timeAgo, setTimeAgo] = useState('');
-  // Function to calculate the time ago string
+  const [showReplyForm, setShowReplyForm] = useState(false);
+
   const calculateTimeAgo = (timestamp) => {
     const { _seconds: seconds } = timestamp;
     const now: any = new Date();
@@ -19,6 +21,11 @@ const Comment = ({ userAvatar, userName, content, timestamp }) => {
     } else {
       return `${Math.floor(diffInSeconds / 86400)} days ago`;
     }
+  };
+
+  const handleReplyClick = () => {
+    // Toggle the reply form when the reply button is clicked
+    setShowReplyForm(!showReplyForm);
   };
 
   useEffect(() => {
@@ -51,7 +58,16 @@ const Comment = ({ userAvatar, userName, content, timestamp }) => {
       </div>
       <div className="comment-footer text-sm text-gray-500">
         <span>{timeAgo}</span>
+        <button onClick={handleReplyClick} className="reply-button">
+          Reply
+        </button>
       </div>
+      {showReplyForm && (
+        <CommentForm
+          onSubmit={(content) => onReply(content, id)} // Pass the reply content and the id of the comment being replied to
+          placeholderText="Write a reply..."
+        />
+      )}
     </div>
   );
 };

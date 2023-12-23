@@ -1,15 +1,35 @@
 const db = require('../config/firebaseAdmin');
 const admin = require('firebase-admin');
 
-const createComment = async (userId, eventId, content) => {
+const createComment = async (userId, eventId, content, parentId) => {
   const commentData = {
     userId,
     eventId,
     content,
+    parentId,
     timestamp: admin.firestore.FieldValue.serverTimestamp(),
   };
   const commentRef = await db.collection('comments').add(commentData);
   return commentRef.id;
+};
+const organizeComments = (comments) => {
+  let map = {},
+    node,
+    roots = [];
+  for (let i = 0; i < comments.length; i++) {
+    map[comments[i].id] = i; // initialize the map
+    comments[i].replies = []; // initialize the replies
+  }
+  for (let i = 0; i < comments.length; i++) {
+    node = comments[i];
+    if (node.parentId !== null && map[node.parentId] !== undefined) {
+      // if you have parentId and the parent exists, it's a reply to a comment
+      comments[map[node.parentId]].replies.push(node);
+    } else if (node.parentId === null) {
+      roots.push(node); // if it's null, it's a root node
+    }
+  }
+  return roots;
 };
 
 const getCommentsForEvent = async (eventId) => {
@@ -23,7 +43,9 @@ const getCommentsForEvent = async (eventId) => {
   commentsSnapshot.forEach((doc) =>
     comments.push({ id: doc.id, ...doc.data() })
   );
-  return comments;
+  const organizedComments = organizeComments(comments);
+
+  return organizedComments;
 };
 
 module.exports = {
