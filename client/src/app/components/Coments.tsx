@@ -2,7 +2,15 @@ import React, { useEffect, useState } from 'react';
 import CommentForm from './CommentForm';
 import Image from 'next/image';
 
-const Comment = ({ id, userAvatar, userName, content, timestamp, onReply }) => {
+const Comment = ({
+  id,
+  userAvatar,
+  userName,
+  content,
+  timestamp,
+  onReply,
+  isReply,
+}) => {
   const [timeAgo, setTimeAgo] = useState('');
   const [showReplyForm, setShowReplyForm] = useState(false);
 
@@ -27,7 +35,7 @@ const Comment = ({ id, userAvatar, userName, content, timestamp, onReply }) => {
     // Toggle the reply form when the reply button is clicked
     setShowReplyForm(!showReplyForm);
   };
-
+  const commentReply = isReply ? 'comment reply' : 'comment';
   useEffect(() => {
     // Set initial time ago
     setTimeAgo(calculateTimeAgo(timestamp));
@@ -42,7 +50,7 @@ const Comment = ({ id, userAvatar, userName, content, timestamp, onReply }) => {
   }, [timestamp]);
 
   return (
-    <div className="comment">
+    <div className={commentReply}>
       <div className="comment-header flex items-center space-x-2">
         <Image
           src={userAvatar}
@@ -64,7 +72,7 @@ const Comment = ({ id, userAvatar, userName, content, timestamp, onReply }) => {
       </div>
       {showReplyForm && (
         <CommentForm
-          onSubmit={(content) => onReply(content, id)} // Pass the reply content and the id of the comment being replied to
+          onSubmit={(content) => onReply(content, id)}
           placeholderText="Write a reply..."
         />
       )}

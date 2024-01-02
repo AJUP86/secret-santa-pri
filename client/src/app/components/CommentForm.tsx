@@ -10,16 +10,18 @@ const CommentForm = ({ onSubmit, placeholderText }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="comment-form">
+    <form onSubmit={handleSubmit} className="comment-form flex flex-col gap-4">
       <textarea
         placeholder={placeholderText}
         value={content}
         onChange={(e) => setContent(e.target.value)}
         // additional styles
       ></textarea>
-      <button type="submit" className="comment-submit">
-        Post
-      </button>
+      <div className="flex justify-end">
+        <button type="submit" className="comment-submit">
+          Post
+        </button>
+      </div>
     </form>
   );
 };

@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth/next';
 import GoogleProvider from 'next-auth/providers/google';
 import { NextAuthOptions } from 'next-auth';
-import { db } from '../../../../../firebase'; // Adjust the path as needed
+import { db } from '../../../../../firebase';
 import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
@@ -23,7 +23,7 @@ const authOptions: NextAuthOptions = {
         throw new Error('No profile');
       }
       const userData = {
-        name: profile.name || user.name, // Fallback to `user.name` if `profile.name` isn't available
+        name: profile.name || user.name,
         email: profile.email,
         bio: '',
         wishlist: [],

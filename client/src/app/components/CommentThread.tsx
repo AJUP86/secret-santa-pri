@@ -16,8 +16,9 @@ const CommentThread = ({
         content={rootComment.content}
         timestamp={rootComment.timestamp}
         onReply={onReply}
+        isReply={false}
       />
-      <div className="replies">
+      <div className="replies ml-4">
         {replies.map((reply) => (
           <div key={reply.id}>
             <Comment
@@ -27,6 +28,7 @@ const CommentThread = ({
               content={reply.content}
               timestamp={reply.timestamp}
               onReply={onReply}
+              isReply={true}
             />
           </div>
         ))}
