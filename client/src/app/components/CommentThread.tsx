@@ -7,6 +7,25 @@ const CommentThread = ({
   userAvatar,
   userName,
 }) => {
+  const renderReplies = (replies) => {
+    return replies.map((reply) => (
+      <div key={reply.id} className="ml-4">
+        <Comment
+          id={reply.id}
+          userAvatar={userAvatar}
+          userName={userName}
+          content={reply.content}
+          timestamp={reply.timestamp}
+          onReply={onReply}
+          isReply={true}
+        />
+        {/* Render the nested replies if any */}
+        {reply.replies &&
+          reply.replies.length > 0 &&
+          renderReplies(reply.replies)}
+      </div>
+    ));
+  };
   return (
     <div className="comment-thread">
       <Comment
@@ -18,21 +37,7 @@ const CommentThread = ({
         onReply={onReply}
         isReply={false}
       />
-      <div className="replies ml-4">
-        {replies.map((reply) => (
-          <div key={reply.id}>
-            <Comment
-              id={reply.id}
-              userAvatar={userAvatar}
-              userName={userName}
-              content={reply.content}
-              timestamp={reply.timestamp}
-              onReply={onReply}
-              isReply={true}
-            />
-          </div>
-        ))}
-      </div>
+      <div className="replies">{renderReplies(replies)}</div>
     </div>
   );
 };
