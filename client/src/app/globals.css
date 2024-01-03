@@ -68,4 +68,53 @@ footer {
   .footer {
     @apply flex items-center justify-center w-full h-24 border-t bg-gray-800 text-gray-300;
   }
+
+  .comment-section {
+    @apply bg-white text-gray-800 rounded-lg shadow p-6 mt-4;
+  }
+
+  .comment-form {
+    @apply flex flex-col gap-4;
+  }
+
+  .comment-input {
+    @apply w-full border-gray-300 rounded-lg shadow-sm p-3 text-gray-700 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent;
+  }
+
+  .comment-submit {
+    @apply bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded transition duration-300 cursor-pointer;
+  }
+
+  .comment-submit:disabled {
+    @apply bg-gray-400 cursor-not-allowed opacity-50;
+  }
+  .replies {
+    @apply ml-4 pl-4  border-gray-200; /* Adjust margin, padding, and border as needed */
+  }
+
+  .comment-submit {
+    @apply bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded transition duration-300 cursor-pointer self-end;
+  }
+  .comment-footer {
+    @apply flex items-center justify-between px-4 py-2 bg-gray-100 text-sm text-gray-600;
+  }
+
+  .comments-display {
+    @apply mt-4 bg-gray-50 p-4 rounded-lg shadow;
+  }
+  .comment {
+    position: relative;
+    padding-left: 20px;
+    padding-bottom: 20px;
+  }
+
+  .comment.reply::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #ddd;
+  }
 }

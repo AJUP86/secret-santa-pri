@@ -1,10 +1,10 @@
 const { createComment, getCommentsForEvent } = require('../models/comment');
 
 const postComment = async (req, res) => {
-  const { userId, eventId, content } = req.body;
+  const { userId, eventId, content, parentId } = req.body;
 
   try {
-    const commentId = await createComment(userId, eventId, content);
+    const commentId = await createComment(userId, eventId, content, parentId);
     res.status(201).json({ message: 'Comment added successfully', commentId });
   } catch (error) {
     console.error('Error posting comment:', error);
