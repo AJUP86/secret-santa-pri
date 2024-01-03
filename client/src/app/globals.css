@@ -82,7 +82,11 @@ footer {
   }
 
   .comment-submit {
-    @apply bg-accent hover:bg-accent-hover text-white font-bold py-2 px-4 rounded transition duration-300 cursor-pointer;
+    @apply bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded transition duration-300 cursor-pointer;
+  }
+
+  .comment-submit:disabled {
+    @apply bg-gray-400 cursor-not-allowed opacity-50;
   }
   .replies {
     @apply ml-4 pl-4  border-gray-200; /* Adjust margin, padding, and border as needed */
@@ -100,17 +104,17 @@ footer {
   }
   .comment {
     position: relative;
-    padding-left: 20px; /* Adjust as needed */
+    padding-left: 20px;
     padding-bottom: 20px;
   }
 
   .comment.reply::before {
     content: '';
     position: absolute;
-    left: 10px; /* Adjust to align with the desired location */
+    left: 10px;
     top: 0;
     bottom: 0;
-    width: 2px; /* Thickness of the line */
-    background-color: #ddd; /* Color of the line */
+    width: 2px;
+    background-color: #ddd;
   }
 }

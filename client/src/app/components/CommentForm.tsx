@@ -2,11 +2,23 @@ import { useState } from 'react';
 
 const CommentForm = ({ onSubmit, placeholderText }) => {
   const [content, setContent] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  const handleContentChange = (e) => {
+    const newContent = e.target.value;
+    setContent(newContent);
+    setIsButtonDisabled(
+      newContent.trim().length === 0 || newContent.length > 300
+    );
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(content);
-    setContent('');
+    if (!isButtonDisabled) {
+      onSubmit(content);
+      setContent('');
+      setIsButtonDisabled(true);
+    }
   };
 
   return (
@@ -14,11 +26,19 @@ const CommentForm = ({ onSubmit, placeholderText }) => {
       <textarea
         placeholder={placeholderText}
         value={content}
-        onChange={(e) => setContent(e.target.value)}
-        // additional styles
+        onChange={handleContentChange}
+        className="comment-input"
       ></textarea>
       <div className="flex justify-end">
-        <button type="submit" className="comment-submit">
+        <button
+          type="submit"
+          className={`comment-submit ${
+            isButtonDisabled
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-primary hover:bg-primary-hover'
+          }`}
+          disabled={isButtonDisabled}
+        >
           Post
         </button>
       </div>
