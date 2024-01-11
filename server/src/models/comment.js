@@ -17,16 +17,15 @@ const organizeComments = (comments) => {
     node,
     roots = [];
   for (let i = 0; i < comments.length; i++) {
-    map[comments[i].id] = i; // initialize the map
-    comments[i].replies = []; // initialize the replies
+    map[comments[i].id] = i;
+    comments[i].replies = [];
   }
   for (let i = 0; i < comments.length; i++) {
     node = comments[i];
     if (node.parentId !== null && map[node.parentId] !== undefined) {
-      // if you have parentId and the parent exists, it's a reply to a comment
       comments[map[node.parentId]].replies.push(node);
     } else if (node.parentId === null) {
-      roots.push(node); // if it's null, it's a root node
+      roots.push(node);
     }
   }
   return roots;

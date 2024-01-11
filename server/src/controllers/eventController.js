@@ -33,7 +33,7 @@ const addParticipantToEvent = async (req, res) => {
   const { userId } = req.body;
 
   try {
-    await addUserToEvent(eventId, userId);
+    await addUserToEvent(eventId, userId, 'pending');
     res.status(200).json({ message: 'User added to event successfully' });
   } catch (error) {
     console.error('Error adding user to event:', error);

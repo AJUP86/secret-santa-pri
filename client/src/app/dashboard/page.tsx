@@ -15,7 +15,7 @@ export default function Dashboard() {
   if (!session || !session.user) {
     return <Home />;
   }
-
+  console.log(session);
   return (
     <>
       <div className="flex flex-col items-center justify-center flex-1 py-2">

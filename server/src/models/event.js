@@ -8,24 +8,25 @@ const getEvents = async () => {
   snapshot.forEach((doc) => {
     events.push({ id: doc.id, ...doc.data() });
   });
-  return events; // Return the events array
+  return events;
 };
-const createEvent = async (creatorId, name, description, users = []) => {
+const createEvent = async (creatorId, name, description) => {
   const eventData = {
     creatorId,
     name,
     description,
-    users,
+    users: [],
     timestamp: admin.firestore.FieldValue.serverTimestamp(),
   };
   const eventRef = await db.collection('events').add(eventData);
   return eventRef.id;
 };
 
-const addUserToEvent = async (eventId, userId) => {
+const addUserToEvent = async (eventId, userId, status = 'pending') => {
+  const userObj = { userId, status };
   const eventRef = db.collection('events').doc(eventId);
   await eventRef.update({
-    users: admin.firestore.FieldValue.arrayUnion(userId),
+    users: admin.firestore.FieldValue.arrayUnion(userObj),
   });
   return eventId;
 };
@@ -46,12 +47,11 @@ const updateEventById = async (eventId, userId, updatedData) => {
   const eventDoc = await eventRef.get();
 
   if (!eventDoc.exists || eventDoc.data().creatorId !== userId) {
-    // Event not found, or user is not the creator
     return null;
   }
 
   await eventRef.update(updatedData);
-  return eventId; // Return the event ID to confirm the update
+  return eventId;
 };
 
 module.exports = {
