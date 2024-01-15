@@ -1,8 +1,9 @@
 'use client';
-import { signIn } from 'next-auth/react';
-import React from 'react';
 
+import React from 'react';
+import { useRouter } from 'next/navigation';
 const Home = () => {
+  const router = useRouter();
   return (
     <>
       <main className="flex flex-col items-center justify-center min-h-screen  text-white text-center px-4 ">
@@ -15,11 +16,7 @@ const Home = () => {
           invite friends, and manage your gift exchange with ease.
         </p>
         <button
-          onClick={() =>
-            signIn(undefined, {
-              callbackUrl: 'http://localhost:3000/dashboard',
-            })
-          }
+          onClick={() => router.push('/login')}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Get Started

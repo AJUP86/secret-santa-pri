@@ -3,19 +3,18 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import Home from '../page';
-import { useSession } from 'next-auth/react';
+import useAuth from '../hooks/useAuth';
 export default function Dashboard() {
-  const { data: session } = useSession();
+  const { user } = useAuth();
   const router = useRouter();
   const createEvent = () => {
     router.push('/dashboard/events/new');
   };
-
-  console.log(session);
-  if (!session || !session.user) {
+  console.log(user);
+  if (!user) {
     return <Home />;
   }
-  console.log(session);
+
   return (
     <>
       <div className="flex flex-col items-center justify-center flex-1 py-2">

@@ -1,5 +1,5 @@
 const db = require('../config/firebaseAdmin');
-
+const { createUser } = require('../models/user');
 async function getUsers(req, res) {
   try {
     const usersCollection = db.collection('users');
@@ -14,5 +14,17 @@ async function getUsers(req, res) {
     res.status(500).send('Error fetching users');
   }
 }
+const createNewUser = async (req, res) => {
+  console.log('Request body:', req.body);
+  const { uid, name, email } = req.body;
 
-module.exports = { getUsers };
+  try {
+    const userId = await createUser(uid, name, email);
+    res.status(201).json({ message: 'User created successfully', userId });
+  } catch (error) {
+    console.error('Error creating user:', error);
+    res.status(500).send('Error creating user');
+  }
+};
+
+module.exports = { getUsers, createNewUser };

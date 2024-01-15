@@ -13,14 +13,15 @@ const {
 } = process.env;
 
 const firebaseConfig = {
-  apiKey: FIREBASE_API_KEY,
-  authDomain: FIREBASE_AUTH_DOMAIN,
+  apiKey: 'AIzaSyAO8j0khGPSlhx3ybRkLIhIRTWauyUAvEw',
+  authDomain: 'secret-santa-pri.firebaseapp.com',
   projectId: FIREBASE_PROJECT_ID,
   storageBucket: FIREBASE_STORAGE_BUCKET,
   messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
   appId: FIREBASE_APP_ID,
   measurementId: FIREBASE_MEASUREMENT_ID,
 };
+
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
 const db = getFirestore(app);

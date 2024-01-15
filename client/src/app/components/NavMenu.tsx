@@ -1,25 +1,21 @@
 'use client';
 import Link from 'next/link';
-import { signIn, signOut, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+
+import useAuth from '../hooks/useAuth';
+import { redirect, useRouter } from 'next/navigation';
 import React from 'react';
 
 const AuthButton = () => {
-  const { data: session } = useSession();
-
+  const { user, signIn, signOutUser } = useAuth();
   const router = useRouter();
   const handleSignIn = () => {
-    signIn(undefined, { callbackUrl: 'http://localhost:3000/dashboard' });
+    router.push('/login');
   };
 
-  const GoHome = () => {
-    signOut({ callbackUrl: 'http://localhost:3000/' });
-    router.push('/');
-  };
-  return session ? (
+  return user ? (
     <div className="flex items-center space-x-2">
-      <span>{session.user.name}</span>
-      <button onClick={GoHome} className="button-secondary">
+      <span>{user.displayName}</span>
+      <button onClick={signOutUser} className="button-secondary">
         Sign out
       </button>
     </div>
@@ -37,12 +33,12 @@ const AuthButton = () => {
 };
 
 export default function NavMenu() {
-  const { data: session } = useSession();
+  const { user } = useAuth();
   return (
     <nav className="bg-gradient-to-r from-blue-600 to-blue-800 p-4 text-white">
       <div className="container mx-auto flex justify-between items-center">
         <Link
-          href={session ? '/dashboard' : '/'}
+          href={user ? '/dashboard' : '/'}
           className="text-xl font-semibold hover:text-gray-300 transition duration-300"
         >
           Secret Santa App
