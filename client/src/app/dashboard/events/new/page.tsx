@@ -1,17 +1,16 @@
 'use client';
-// pages/event-setup.tsx
+
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useSession } from 'next-auth/react';
 import React from 'react';
 import Home from '../../page';
-// Import other necessary components and hooks
+import useAuth from '../../../hooks/useAuth';
 
 export default function EventSetup() {
   // State to hold the form data
   const [eventName, setEventName] = useState('');
   const [eventDescription, setEventDescription] = useState('');
-  const { data: session } = useSession();
+  const { user } = useAuth();
   const router = useRouter();
 
   // Function to handle form submission
@@ -25,7 +24,7 @@ export default function EventSetup() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          creatorId: session.user.name,
+          creatorId: user.displayName,
           name: eventName,
           description: eventDescription,
           // Add any other event fields here
@@ -43,7 +42,7 @@ export default function EventSetup() {
       // Handle errors, such as displaying an error message to the user
     }
   };
-  if (!session || !session.user) {
+  if (!user) {
     return <Home />;
   }
   return (

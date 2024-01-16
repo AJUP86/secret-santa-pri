@@ -3,7 +3,7 @@ import React from 'react';
 import useAuth from '../hooks/useAuth';
 
 const LoginPage = () => {
-  const { user, signIn, signOutUser } = useAuth();
+  const { signIn } = useAuth();
 
   return (
     <div>

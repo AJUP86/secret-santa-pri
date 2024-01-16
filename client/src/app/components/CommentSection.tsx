@@ -1,11 +1,11 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import useAuth from '../hooks/useAuth';
 import CommentForm from './CommentForm';
 import CommentThread from './CommentThread';
 const CommentSection = ({ eventId }) => {
   const [postedComments, setPostedComments] = useState([]);
-  const { data: session } = useSession();
+  const { user } = useAuth();
 
   const fetchComments = async (event) => {
     try {
@@ -33,7 +33,7 @@ const CommentSection = ({ eventId }) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userId: session.user.email,
+          userId: user.uid,
           eventId,
           content,
           parentId,
@@ -55,7 +55,7 @@ const CommentSection = ({ eventId }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userId: session.user.email,
+          userId: user.uid,
           eventId,
           content: content,
           parentId: parentId, // Send the parentId of the comment being replied to
@@ -90,8 +90,8 @@ const CommentSection = ({ eventId }) => {
                   rootComment={comment}
                   replies={comment.replies}
                   onReply={handlePostReply}
-                  userAvatar={session.user.image}
-                  userName={session.user.name}
+                  userAvatar={user.photoURL}
+                  userName={user.displayName}
                 />
               )
           )}

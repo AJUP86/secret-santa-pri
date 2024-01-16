@@ -19,12 +19,11 @@ const useAuth = () => {
         // User is signed in
         console.log(firebaseUser);
         setUser(firebaseUser);
-        router.push('/dashboard');
+
         handleCreateUser(firebaseUser);
       } else {
         // User is signed out
         setUser(null);
-        router.push('/login');
       }
     });
 
@@ -67,6 +66,7 @@ const useAuth = () => {
       });
       // Sign in with popup and let onAuthStateChanged handle the user state
       await signInWithPopup(auth, provider);
+      router.push('/dashboard');
     } catch (error) {
       console.error('Error during sign in:', error);
     }
@@ -76,6 +76,7 @@ const useAuth = () => {
     try {
       // Sign out and let onAuthStateChanged handle the user state
       await firebaseSignOut(auth);
+      router.push('/login');
     } catch (error) {
       console.error('Error during sign out:', error);
     }
