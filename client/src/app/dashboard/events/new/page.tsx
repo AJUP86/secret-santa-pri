@@ -5,6 +5,7 @@ import { useState } from 'react';
 import React from 'react';
 import Home from '../../page';
 import useAuth from '../../../hooks/useAuth';
+import MultiStepForm from '../../../components/MultiStepForm';
 
 export default function EventSetup() {
   // State to hold the form data
@@ -46,42 +47,45 @@ export default function EventSetup() {
     return <Home />;
   }
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-3xl font-bold mb-4">Setup Your Secret Santa Event</h2>
-      <form onSubmit={handleCreateEvent}>
-        <div className="mb-4">
-          <label htmlFor="eventName" className="block text-lg font-medium mb-2">
-            Event Name
-          </label>
-          <input
-            type="text"
-            id="eventName"
-            name="eventName"
-            value={eventName}
-            onChange={(e) => setEventName(e.target.value)}
-            className="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="eventDescription"
-            className="block text-lg font-medium mb-2"
-          >
-            Event Description
-          </label>
-          <textarea
-            id="eventDescription"
-            name="eventDescription"
-            value={eventDescription}
-            onChange={(e) => setEventDescription(e.target.value)}
-            className="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
-            rows={4}
-          ></textarea>
-        </div>
-        <button type="submit" className="button-primary">
-          Save Event
-        </button>
-      </form>
+    // <div className="container mx-auto p-4">
+    //   <h2 className="text-3xl font-bold mb-4">Setup Your Secret Santa Event</h2>
+    //   <form onSubmit={handleCreateEvent}>
+    //     <div className="mb-4">
+    //       <label htmlFor="eventName" className="block text-lg font-medium mb-2">
+    //         Event Name
+    //       </label>
+    //       <input
+    //         type="text"
+    //         id="eventName"
+    //         name="eventName"
+    //         value={eventName}
+    //         onChange={(e) => setEventName(e.target.value)}
+    //         className="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+    //       />
+    //     </div>
+    //     <div className="mb-4">
+    //       <label
+    //         htmlFor="eventDescription"
+    //         className="block text-lg font-medium mb-2"
+    //       >
+    //         Event Description
+    //       </label>
+    //       <textarea
+    //         id="eventDescription"
+    //         name="eventDescription"
+    //         value={eventDescription}
+    //         onChange={(e) => setEventDescription(e.target.value)}
+    //         className="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+    //         rows={4}
+    //       ></textarea>
+    //     </div>
+    //     <button type="submit" className="button-primary">
+    //       Save Event
+    //     </button>
+    //   </form>
+    // </div>
+    <div>
+      <MultiStepForm />
     </div>
   );
 }

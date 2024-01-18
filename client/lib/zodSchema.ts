@@ -10,7 +10,7 @@ const emailSchema = z
     message: 'Must be a Gmail address',
   });
 
-export const UserEmailValidation = z.object({
+export const FormDataSchema = z.object({
   emails: z
     .string()
     .min(1, 'Emails are required')
@@ -25,17 +25,11 @@ export const UserEmailValidation = z.object({
     .refine((emailsArray) => emailsArray.length >= 3, {
       message: 'At least 3 emails are required',
     }),
-});
-
-export const eventValidation = z.object({
-  name: z.string().min(1, 'The name of the event is required is required'),
+  name: z.string().min(1, 'The name of the event is required'),
   description: z
     .string()
     .min(5, 'Event description is required')
     .max(350, 'Event description must not exceed 350 characters'),
-});
-
-export const EventDateValidation = z.object({
   date: z
     .string()
     .regex(dateRegex, { message: 'Invalid date format. Use DD-MM-YYYY.' })
