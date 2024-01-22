@@ -1,8 +1,5 @@
 import { z } from 'zod';
 
-const dateRegex = /^\d{2}-\d{2}-\d{4}$/; // Regex for YYYY-MM-DD format
-const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/; // Regex for HH:mm format
-
 const emailSchema = z
   .string()
   .email({ message: 'Invalid email format' })
@@ -30,19 +27,16 @@ export const FormDataSchema = z.object({
     .string()
     .min(5, 'Event description is required')
     .max(350, 'Event description must not exceed 350 characters'),
-  date: z
-    .string()
-    .regex(dateRegex, { message: 'Invalid date format. Use DD-MM-YYYY.' })
-    .refine((date) => {
-      const [day, month, year] = date.split('-').map(Number);
-      const dateObj = new Date(year, month - 1, day);
-      return (
-        dateObj.getDate() === day &&
-        dateObj.getMonth() === month - 1 &&
-        dateObj.getFullYear() === year
-      );
-    }, 'Invalid date'),
-  time: z
-    .string()
-    .regex(timeRegex, { message: 'Invalid time format. Use HH:mm.' }),
+  date: z.date().refine(
+    (date) => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return date >= today;
+    },
+    {
+      message: 'Date cannot be in the past.',
+    }
+  ),
+  hour: z.string(),
+  minute: z.string(),
 });

@@ -12,6 +12,7 @@ export default function Dashboard() {
   };
   console.log(user);
   if (!user) {
+    console.log('Currently no user');
     return <Home />;
   } else
     return (

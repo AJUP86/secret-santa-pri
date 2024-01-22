@@ -1,22 +1,24 @@
 'use client';
 import React, { useState } from 'react';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { FormDataSchema } from '../../../lib/zodSchema'; // Adjust the import path
 import EventForm from './EventForm';
 import { zodResolver } from '@hookform/resolvers/zod';
+import DateForm from './DateForm';
 
 type Inputs = {
   name: string;
   description: string;
-  date: string;
-  time: string;
+  date: Date;
+  hour: string;
+  minute: string;
   emails: string[];
 };
 type FieldName = keyof Inputs;
 const steps = [
   { id: 'Step 1', name: 'Event information', fields: ['name', 'description'] },
-  { id: 'Step 2', name: "Event's date", fields: ['date', 'time'] },
+  { id: 'Step 2', name: "Event's date", fields: ['date', 'hour', 'minute'] },
   { id: 'Step 3', name: 'Invited users', fields: ['emails'] },
   { id: 'Step 4', name: 'Event Submition' },
   { id: 'Step 5', name: 'End' },
@@ -33,25 +35,38 @@ const MultiStepForm = () => {
   });
 
   const processForm: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+    // Combine date, hour, and minute into a single DateTime object
+    const eventDateTime = new Date(data.date);
+    eventDateTime.setHours(parseInt(data.hour));
+    eventDateTime.setMinutes(parseInt(data.minute));
+
+    const formData = {
+      ...data,
+      eventDateTime,
+    };
+
+    console.log(formData);
+    // Process formData here...
     methods.reset();
   };
 
   const next = async () => {
     const fields = steps[currentStep].fields;
+    console.log(currentStep);
     const output = await methods.trigger(fields as FieldName[], {
       shouldFocus: true,
     });
-
+    console.log(output);
     if (!output) return;
 
+    if (currentStep === steps.length - 2) {
+      await methods.handleSubmit(processForm)();
+      return; // Stop the function if it's the final submission
+    }
+
     if (currentStep < steps.length - 1) {
-      if (currentStep === steps.length - 2) {
-        await methods.handleSubmit(processForm)();
-      }
       setPreviousStep(currentStep);
       setCurrentStep((step) => step + 1);
-      console.log(currentStep);
     }
   };
   const prev = () => {
@@ -113,16 +128,16 @@ const MultiStepForm = () => {
               <EventForm />
             </motion.div>
           )}
-          {currentStep === 2 && (
+          {currentStep === 1 && (
             <motion.div
               initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
             >
-              <h1>Date time </h1>
+              <DateForm />
             </motion.div>
           )}
-          {currentStep === 3 && (
+          {currentStep === 2 && (
             <motion.div
               initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -131,7 +146,7 @@ const MultiStepForm = () => {
               <h1>Invitation</h1>
             </motion.div>
           )}
-          {currentStep === 4 && (
+          {currentStep === 3 && (
             <motion.div
               initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -140,7 +155,7 @@ const MultiStepForm = () => {
               <h1>Submit event </h1>
             </motion.div>
           )}
-          {currentStep === 5 && (
+          {currentStep === 4 && (
             <motion.div
               initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -149,7 +164,6 @@ const MultiStepForm = () => {
               <h1>Succesfull event</h1>
             </motion.div>
           )}
-          {/* Add more steps as needed */}
         </form>
         <div className="mt-8 pt-5">
           <div className="flex justify-between">
